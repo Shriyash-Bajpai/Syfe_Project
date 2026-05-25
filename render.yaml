@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: personal-finance-manager
+    env: java
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/manager-1.0.0.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+    healthCheckPath: /api/auth/login
