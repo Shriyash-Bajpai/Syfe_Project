@@ -28,6 +28,14 @@ public interface TransactionService {
             Long categoryId,
             TransactionType type);
 
+    TransactionListResponse getTransactions(
+            String username,
+            LocalDate startDate,
+            LocalDate endDate,
+            Long categoryId,
+            String categoryName,
+            TransactionType type);
+
     /**
      * Updates an existing transaction. Date cannot be modified.
      */

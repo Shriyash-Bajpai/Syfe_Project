@@ -4,6 +4,7 @@ import com.finance.manager.dto.response.MonthlyReportResponse;
 import com.finance.manager.dto.response.YearlyReportResponse;
 import com.finance.manager.entity.User;
 import com.finance.manager.enums.TransactionType;
+import com.finance.manager.exception.BadRequestException;
 import com.finance.manager.repository.TransactionRepository;
 import com.finance.manager.repository.UserRepository;
 import com.finance.manager.service.ReportService;
@@ -30,6 +31,10 @@ public class ReportServiceImpl implements ReportService {
     @Override
     @Transactional(readOnly = true)
     public MonthlyReportResponse getMonthlyReport(String username, int year, int month) {
+        if (month < 1 || month > 12) {
+            throw new BadRequestException("Month must be between 1 and 12");
+        }
+
         User user = getUser(username);
 
         Map<String, BigDecimal> incomeByCategory = aggregateByCategory(

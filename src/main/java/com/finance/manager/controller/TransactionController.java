@@ -42,7 +42,7 @@ public class TransactionController {
 
     /**
      * Gets all transactions with optional filters.
-     * GET /api/transactions?startDate=&endDate=&categoryId=&type=
+     * GET /api/transactions?startDate=&endDate=&categoryId=&category=&type=
      */
     @GetMapping
     public ResponseEntity<TransactionListResponse> getTransactions(
@@ -50,9 +50,10 @@ public class TransactionController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) TransactionType type) {
         TransactionListResponse response = transactionService.getTransactions(
-                userDetails.getUsername(), startDate, endDate, categoryId, type);
+                userDetails.getUsername(), startDate, endDate, categoryId, category, type);
         return ResponseEntity.ok(response);
     }
 

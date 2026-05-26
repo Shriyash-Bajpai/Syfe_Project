@@ -1,5 +1,6 @@
 package com.finance.manager.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
  * Date cannot be modified per business rules.
  */
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdateTransactionRequest {
 
     @DecimalMin(value = "0.01", message = "Amount must be a positive value")

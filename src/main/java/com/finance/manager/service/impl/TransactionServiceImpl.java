@@ -64,12 +64,26 @@ public class TransactionServiceImpl implements TransactionService {
             LocalDate endDate,
             Long categoryId,
             TransactionType type) {
+        return getTransactions(username, startDate, endDate, categoryId, null, type);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public TransactionListResponse getTransactions(
+            String username,
+            LocalDate startDate,
+            LocalDate endDate,
+            Long categoryId,
+            String categoryName,
+            TransactionType type) {
         User user = getUser(username);
 
         Category categoryFilter = null;
         if (categoryId != null) {
             categoryFilter = categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + categoryId));
+        } else if (categoryName != null && !categoryName.isBlank()) {
+            categoryFilter = resolveCategory(categoryName, user);
         }
 
         List<Transaction> transactions = transactionRepository.findByUserWithFilters(

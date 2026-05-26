@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+  tester:
+    image: ubuntu:24.04
+    volumes:
+      - .:/work
+    working_dir: /work
+    depends_on:
+      - app
+    entrypoint: ["bash","-lc","apt-get update -qq && apt-get install -y curl grep sed bc coreutils && chmod +x financial_manager_tests.sh && ./financial_manager_tests.sh http://app:8080"]

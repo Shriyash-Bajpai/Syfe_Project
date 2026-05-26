@@ -4,6 +4,7 @@ import com.finance.manager.dto.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,6 +64,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<MessageResponse> handleBadRequestException(BadRequestException ex) {
         return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage()));
+    }
+
+    /**
+     * Handles malformed JSON, invalid date formats, and invalid enum values (400).
+     */
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<MessageResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body(new MessageResponse("Invalid request body"));
     }
 
     /**

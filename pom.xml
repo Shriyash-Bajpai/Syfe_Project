@@ -85,10 +85,20 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.1</version>
                 <configuration>
                     <release>${java.version}</release>
+                    <testIncludes>
+                        <testInclude>**/AssignmentE2ETest.java</testInclude>
+                    </testIncludes>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -154,6 +164,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <argLine>@{argLine} -Dnet.bytebuddy.experimental=true</argLine>
+                    <includes>
+                        <include>**/AssignmentE2ETest.java</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
