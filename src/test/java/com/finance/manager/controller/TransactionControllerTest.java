@@ -65,13 +65,29 @@ class TransactionControllerTest {
                 .date(LocalDate.now().minusDays(1))
                 .category("Salary").type(TransactionType.INCOME).build();
 
-        when(transactionService.getTransactions(any(), any(), any(), any()))
+        when(transactionService.getTransactions(any(), any(), any(), any(), any()))
                 .thenReturn(new TransactionListResponse(List.of(txResponse)));
 
         mockMvc.perform(get("/api/transactions"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.transactions").isArray())
                 .andExpect(jsonPath("$.transactions[0].id").value(1));
+    }
+
+    @Test
+    void getTransactions_WithTypeFilter_Returns200() throws Exception {
+        TransactionResponse txResponse = TransactionResponse.builder()
+                .id(1L).amount(new BigDecimal("5000.00"))
+                .date(LocalDate.now().minusDays(1))
+                .category("Salary").type(TransactionType.INCOME).build();
+
+        when(transactionService.getTransactions(
+                eq("test@example.com"), any(), any(), any(), eq(TransactionType.INCOME)))
+                .thenReturn(new TransactionListResponse(List.of(txResponse)));
+
+        mockMvc.perform(get("/api/transactions").param("type", "INCOME"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.transactions[0].type").value("INCOME"));
     }
 
     @Test

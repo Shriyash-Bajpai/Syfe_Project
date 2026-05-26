@@ -5,6 +5,7 @@ import com.finance.manager.dto.request.UpdateTransactionRequest;
 import com.finance.manager.dto.response.MessageResponse;
 import com.finance.manager.dto.response.TransactionListResponse;
 import com.finance.manager.dto.response.TransactionResponse;
+import com.finance.manager.enums.TransactionType;
 import com.finance.manager.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,16 +42,17 @@ public class TransactionController {
 
     /**
      * Gets all transactions with optional filters.
-     * GET /api/transactions?startDate=&endDate=&categoryId=
+     * GET /api/transactions?startDate=&endDate=&categoryId=&type=
      */
     @GetMapping
     public ResponseEntity<TransactionListResponse> getTransactions(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(required = false) Long categoryId) {
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) TransactionType type) {
         TransactionListResponse response = transactionService.getTransactions(
-                userDetails.getUsername(), startDate, endDate, categoryId);
+                userDetails.getUsername(), startDate, endDate, categoryId, type);
         return ResponseEntity.ok(response);
     }
 

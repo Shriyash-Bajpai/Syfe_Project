@@ -111,13 +111,27 @@ class TransactionServiceImplTest {
     @Test
     void getTransactions_Success() {
         when(userRepository.findByUsername("test@example.com")).thenReturn(Optional.of(user));
-        when(transactionRepository.findByUserWithFilters(user, null, null, null))
+        when(transactionRepository.findByUserWithFilters(user, null, null, null, null))
                 .thenReturn(List.of(transaction));
 
-        TransactionListResponse response = transactionService.getTransactions("test@example.com", null, null, null);
+        TransactionListResponse response = transactionService.getTransactions("test@example.com", null, null, null, null);
 
         assertNotNull(response);
         assertEquals(1, response.getTransactions().size());
+    }
+
+    @Test
+    void getTransactions_WithTypeFilter_Success() {
+        when(userRepository.findByUsername("test@example.com")).thenReturn(Optional.of(user));
+        when(transactionRepository.findByUserWithFilters(user, null, null, null, TransactionType.INCOME))
+                .thenReturn(List.of(transaction));
+
+        TransactionListResponse response = transactionService.getTransactions(
+                "test@example.com", null, null, null, TransactionType.INCOME);
+
+        assertNotNull(response);
+        assertEquals(1, response.getTransactions().size());
+        assertEquals(TransactionType.INCOME, response.getTransactions().get(0).getType());
     }
 
     @Test

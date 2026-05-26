@@ -4,6 +4,7 @@ import com.finance.manager.dto.request.TransactionRequest;
 import com.finance.manager.dto.request.UpdateTransactionRequest;
 import com.finance.manager.dto.response.TransactionListResponse;
 import com.finance.manager.dto.response.TransactionResponse;
+import com.finance.manager.enums.TransactionType;
 
 import java.time.LocalDate;
 
@@ -20,7 +21,12 @@ public interface TransactionService {
     /**
      * Retrieves all transactions for the authenticated user with optional filters.
      */
-    TransactionListResponse getTransactions(String username, LocalDate startDate, LocalDate endDate, Long categoryId);
+    TransactionListResponse getTransactions(
+            String username,
+            LocalDate startDate,
+            LocalDate endDate,
+            Long categoryId,
+            TransactionType type);
 
     /**
      * Updates an existing transaction. Date cannot be modified.

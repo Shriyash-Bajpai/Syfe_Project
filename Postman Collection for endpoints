@@ -383,6 +383,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Filter Transaction",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "JSESSIONID=4E632A4CA55CD3B10A157D10A05F178E",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/transactions?type=INCOME",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "INCOME"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

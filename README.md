@@ -467,8 +467,10 @@ Body: none.
 Optional filters:
 
 ```http
-GET /api/transactions?startDate=2026-05-01&endDate=2026-05-31&categoryId=1
+GET /api/transactions?startDate=2026-05-01&endDate=2026-05-31&categoryId=1&type=INCOME
 ```
+
+`type` can be `INCOME` or `EXPENSE`.
 
 Success:
 

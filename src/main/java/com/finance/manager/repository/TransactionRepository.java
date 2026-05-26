@@ -26,12 +26,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
            "AND (:startDate IS NULL OR t.date >= :startDate) " +
            "AND (:endDate IS NULL OR t.date <= :endDate) " +
            "AND (:category IS NULL OR t.category = :category) " +
+           "AND (:type IS NULL OR t.category.type = :type) " +
            "ORDER BY t.date DESC")
     List<Transaction> findByUserWithFilters(
             @Param("user") User user,
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
-            @Param("category") Category category);
+            @Param("category") Category category,
+            @Param("type") TransactionType type);
 
     Optional<Transaction> findByIdAndUser(Long id, User user);
 

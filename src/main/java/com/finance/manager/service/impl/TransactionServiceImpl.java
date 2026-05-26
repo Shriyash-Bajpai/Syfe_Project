@@ -7,6 +7,7 @@ import com.finance.manager.dto.response.TransactionResponse;
 import com.finance.manager.entity.Category;
 import com.finance.manager.entity.Transaction;
 import com.finance.manager.entity.User;
+import com.finance.manager.enums.TransactionType;
 import com.finance.manager.exception.BadRequestException;
 import com.finance.manager.exception.ResourceNotFoundException;
 import com.finance.manager.repository.CategoryRepository;
@@ -57,7 +58,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional(readOnly = true)
-    public TransactionListResponse getTransactions(String username, LocalDate startDate, LocalDate endDate, Long categoryId) {
+    public TransactionListResponse getTransactions(
+            String username,
+            LocalDate startDate,
+            LocalDate endDate,
+            Long categoryId,
+            TransactionType type) {
         User user = getUser(username);
 
         Category categoryFilter = null;
@@ -66,7 +72,8 @@ public class TransactionServiceImpl implements TransactionService {
                     .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + categoryId));
         }
 
-        List<Transaction> transactions = transactionRepository.findByUserWithFilters(user, startDate, endDate, categoryFilter);
+        List<Transaction> transactions = transactionRepository.findByUserWithFilters(
+                user, startDate, endDate, categoryFilter, type);
 
         List<TransactionResponse> responses = transactions.stream()
                 .map(this::toResponse)
