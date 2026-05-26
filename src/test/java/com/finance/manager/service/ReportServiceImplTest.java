@@ -42,9 +42,9 @@ class ReportServiceImplTest {
     void getMonthlyReport_Success() {
         when(userRepository.findByUsername("test@example.com")).thenReturn(Optional.of(user));
         when(transactionRepository.sumByUserAndTypeAndYearAndMonth(user, TransactionType.INCOME, 2024, 1))
-                .thenReturn(List.of(new Object[]{"Salary", new BigDecimal("3000.00")}));
+                .thenReturn(List.<Object[]>of(new Object[]{"Salary", new BigDecimal("3000.00")}));
         when(transactionRepository.sumByUserAndTypeAndYearAndMonth(user, TransactionType.EXPENSE, 2024, 1))
-                .thenReturn(List.of(new Object[]{"Food", new BigDecimal("500.00")}));
+                .thenReturn(List.<Object[]>of(new Object[]{"Food", new BigDecimal("500.00")}));
 
         MonthlyReportResponse response = reportService.getMonthlyReport("test@example.com", 2024, 1);
 
@@ -74,9 +74,9 @@ class ReportServiceImplTest {
     void getYearlyReport_Success() {
         when(userRepository.findByUsername("test@example.com")).thenReturn(Optional.of(user));
         when(transactionRepository.sumByUserAndTypeAndYear(user, TransactionType.INCOME, 2024))
-                .thenReturn(List.of(new Object[]{"Salary", new BigDecimal("36000.00")}));
+                .thenReturn(List.<Object[]>of(new Object[]{"Salary", new BigDecimal("36000.00")}));
         when(transactionRepository.sumByUserAndTypeAndYear(user, TransactionType.EXPENSE, 2024))
-                .thenReturn(List.of(new Object[]{"Food", new BigDecimal("6000.00")}));
+                .thenReturn(List.<Object[]>of(new Object[]{"Food", new BigDecimal("6000.00")}));
 
         YearlyReportResponse response = reportService.getYearlyReport("test@example.com", 2024);
 
